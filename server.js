@@ -6,19 +6,31 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import sharp from 'sharp';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS
-app.use(cors());
+// Enable CORS with configuration
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
 
 // Create a connection pool to the MySQL database
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'reporting_system',
+    host: process.env.MYSQL_HOST || 'localhost',
+    user: process.env.MYSQL_USER || 'root',
+    password: process.env.MYSQL_PASSWORD || '',
+    database: process.env.MYSQL_DATABASE || 'reporting_system',
+    port: parseInt(process.env.MYSQL_PORT || '3306'),
+    ssl: process.env.MYSQL_SSL === 'true' ? {
+        rejectUnauthorized: false
+    } : false,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
