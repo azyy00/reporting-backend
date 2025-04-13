@@ -1,0 +1,13 @@
+{
+  "name": "reporting-system-setup",
+  "version": "1.0.0",
+  "description": "Database setup script for Reporting System",
+  "main": "setupDatabase.js",
+  "type": "module",
+  "scripts": {
+    "setup": "node setupDatabase.js"
+  },
+  "dependencies": {
+    "mysql2": "^3.9.2"
+  }
+}
